@@ -1,1 +1,1 @@
-# HERD_Protype_RCOS
+# HERD_Prototype_RCOS
