@@ -10,7 +10,7 @@ the router will operate.
 
 <div style="text-align: center;">
 
-**Figure One: Router Diagram**
+**Router Diagram**
 ![Router Diagram](Figures\Router-Diagram.jpg "Figure One")
 
 </div>
@@ -28,7 +28,7 @@ Figure two represents how the experts will fit into the HERD architecture.
 
 <div style="text-align: center;">
 
-**Figure Two: Experts Diagram**
+**Experts Diagram**
 ![Experts Diagram](Figures/Experts%20Diagram.jpg "Figure Two")  
 
 </div>
@@ -39,7 +39,7 @@ The aggregator section of HERD can be thought of as the speech component of the 
 
 <div style="text-align: center;">
 
-**Figure Three: Aggregator Diagram**
+**Aggregator Diagram**
 ![Aggregator Diagram](Figures/Aggregator.jpg "Figure Three")  
 
 </div>
@@ -49,7 +49,7 @@ Our approach to HERD is largely modeled after how the human brain processes comp
 
 <div style="text-align: center;">
 
-**Figure Four: Full HERD Architecture**
+**Full HERD Architecture**
 ![Full Diagram](Figures/Overall%20HERD%20architecture%20Diagram.jpg "Figure Four")  
 
 </div>
