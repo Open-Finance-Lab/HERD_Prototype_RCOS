@@ -1,4 +1,4 @@
-# Heterogenous Experts with Routing Decisions (HERD) Prototype - An RCOS Project
+# Heterogenous Experts with Routing Decisions (HERD) Prototype
 HERD is an approach to multi-model reasoning that utilizes multiple independent models fine-tuned to be experts on different subjects. The HERD interface will take a prompt like a traditional chat-based LLM and decompose it into its core topics, assign different experts to components of the prompt, and aggregate the expert answers into one coherent output. This repository is a prototype implementation of HERD carried out in collaboration with Rensselaer Center for Open Source (RCOS). 
 
 ## Prototype Architecture
