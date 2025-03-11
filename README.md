@@ -53,3 +53,8 @@ Our approach to HERD is largely modeled after how the human brain processes comp
 ![Full Diagram](Figures/Overall%20HERD%20architecture%20Diagram.jpg "Figure Four")  
 
 </div>
+
+
+**Run Server on Local**
+cd frontend
+npm run dev

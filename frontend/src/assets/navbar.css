@@ -1,0 +1,79 @@
+/* Navbar */
+#navbar {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  background-color: rgb(235, 73, 73);
+  border-bottom: 6px solid rgb(0, 0, 0);
+  justify-content: space-between;
+  height: 3em;
+}
+
+/* Navbar logo */
+#navbar img {
+  width: 5%;
+  height: auto;
+}
+
+/* Right section of the navbar */
+#navbarRight {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5%;
+  white-space: nowrap;
+}
+
+/* Left section of the navbar */
+#navbarLeft {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 1%;
+  margin-left: 35%;
+}
+
+/* Navbar links */
+#navbar a {
+  position: relative;
+  text-decoration: none; 
+  color: rgb(0, 0, 0);
+  font-size: 110%;
+  margin-left: 40%;
+  transition: color 0.3s ease; 
+  white-space: nowrap;
+}
+
+/* Animated underline effect when an "a" tag item is hovered over */
+#navbar a::after {
+  content: '';
+  position: absolute;
+  left: 0; 
+  bottom: -3px; 
+  width: 0;
+  height: 2px; 
+  background-color: white;
+  transition: width 0.3s ease;
+}
+
+/* When a navbar "a" tag item is hovered over, its text color will change */
+#navbar a:hover {
+  color: #f3f3f3;
+}
+
+/* When a navbar "a" tag item is hovered over, the underline below it will expand as an animation */
+#navbar a:hover::after {
+  width: 100%;
+}
+
+/* When a navbar "a" has the active class, its color will be permanently altered */
+#navbar a.active {
+  color: #f3f3f3;
+}
+
+/* When a navbar "a" has the active class, the underline below it will be permanently visible */
+#navbar a.active::after {
+  width: 100%;
+  background-color: white;
+}
