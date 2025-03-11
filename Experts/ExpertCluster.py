@@ -67,3 +67,26 @@ class ExpertCluster:
             output = self.models[self.rank].generate(**inputs)
         return self.tokenizers[self.rank].decode(output[0], skip_special_tokens=True)
     
+    def cleanUp(self):
+        dist.destroy_process_group()
+        print(f"Node {self.rank}: Process group destroyed.")
+
+if __name__ == "___main__":
+
+    modelPaths = ["/gpfs/u/home/ARUS/ARUSgrsm/scratch/HFModels/models--BioMistral--BioMistral-7B/snapshots/9a11e1ffa817c211cbb52ee1fb312dc6b61b40a5", 
+                  "/gpfs/u/home/ARUS/ARUSgrsm/scratch/HFModels/models--AI-MO--NuminaMath-7B-TIR/snapshots/cf2aaf3f706eef519a80523e21c655903203e984", 
+                  "/gpfs/u/home/ARUS/ARUSgrsm/scratch/HFModels/models--Locutusque--OpenCerebrum-2.0-7B/snapshots/1fe44275e09e3d335fc214da06a7ac9be863341c"]
+
+    cluster = ExpertCluster(modelPaths)
+
+    if (cluster.rank == 0):
+        print("Running Tests")
+
+        responses = {}
+        for target_rank in range(1, cluster.world_size):
+            responses[target_rank] = cluster.query(f"Test prompt for Node {target_rank}", target_rank)
+
+        for node, response in responses.items():
+            print(f"Response from Node {node}: {response}")
+
+    cluster.cleanup()
