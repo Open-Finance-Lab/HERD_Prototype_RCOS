@@ -1,4 +1,14 @@
-.content{
+body{
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.title{
   margin: auto;
   width: 50%;
+}
+
+.content{
+  height: 100%;
+  
 }

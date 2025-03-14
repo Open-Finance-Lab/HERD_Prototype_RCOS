@@ -4,7 +4,7 @@ import './footer.css'
 const Footer = () =>{
   return (
     <>
-      <div class="footer">
+      <div className="footer">
         <div id="footerLeft">
             <div id="leftTop">
                 <h3>HERD</h3>

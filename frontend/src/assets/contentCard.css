@@ -1,0 +1,31 @@
+#container{
+  display: flex;
+  gap: 2em;
+  width: 100%;
+  padding: 1em;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  margin-bottom: 2em;
+}
+
+#contentText2{
+  margin-left: 2em;
+}
+
+.cardImg{
+  border: 1px solid #ddd;
+  padding: 5px;
+  border-radius: 20px;
+  width: 24em;
+  height: 15em;
+  margin-left: 2em;
+}
+
+.cardImg2{
+  border: 1px solid #ddd;
+  padding: 5px;
+  border-radius: 20px;
+  width: 24em;
+  height: 15em;
+  float: right; 
+}

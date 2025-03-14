@@ -4,6 +4,7 @@ import viteLogo from '/vite.svg'
 import Navbar from './assets/Navbar'
 import Footer from './assets/footer'
 import Main from './assets/Main'
+import ContentCard from './assets/ContentCard'
 import './App.css'
 
 function App() {
@@ -14,9 +15,16 @@ function App() {
       <Navbar></Navbar>
 
       <Main>
-        <div className="content">
+        <div className="title">
           <h1>Heterogenous Experts with Routing Decisions</h1>
         </div>
+
+        <div className="content">
+          <ContentCard imageSrc="/placeHolderImg.png" flip="no" text="Hello, World!" />
+
+          <ContentCard imageSrc="/placeHolderImg.png" flip="yes" text="Bye bye, World!" />
+        </div>
+
       </Main>
       
       <Footer></Footer>

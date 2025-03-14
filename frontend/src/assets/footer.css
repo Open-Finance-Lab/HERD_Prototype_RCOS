@@ -1,24 +1,19 @@
 .footer {
   display: flex;
   flex-direction: row;
-  height: 3em;
+  height: auto;
   width: 100%;
-  padding: 15px 0;
+  padding: 0 0;
   background-color: black;
   color: white;
   text-align: center;
   justify-content: center;
-  margin: auto;
-
-  position: fixed;  
-  left: 0;
-  bottom: 0;
-  right: 0;
+  
 }
 
 .footerSeparators{
   position: relative;
-  top: -1.5em;
+  top: -0.3em;
 }
 
 #footerLeft {
