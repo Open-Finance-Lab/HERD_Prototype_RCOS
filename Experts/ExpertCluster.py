@@ -66,12 +66,8 @@ class ExpertCluster:
         with torch.no_grad():
             output = self.models[self.rank].generate(**inputs)
         return self.tokenizers[self.rank].decode(output[0], skip_special_tokens=True)
-    
-    def cleanUp(self):
-        dist.destroy_process_group()
-        print(f"Node {self.rank}: Process group destroyed.")
 
-if __name__ == "___main__":
+if __name__ == "__main__":
 
     modelPaths = ["/gpfs/u/home/ARUS/ARUSgrsm/scratch/HFModels/models--BioMistral--BioMistral-7B/snapshots/9a11e1ffa817c211cbb52ee1fb312dc6b61b40a5", 
                   "/gpfs/u/home/ARUS/ARUSgrsm/scratch/HFModels/models--AI-MO--NuminaMath-7B-TIR/snapshots/cf2aaf3f706eef519a80523e21c655903203e984", 
@@ -89,4 +85,8 @@ if __name__ == "___main__":
         for node, response in responses.items():
             print(f"Response from Node {node}: {response}")
 
-    cluster.cleanup()
+
+"""
+LOGS: 
+Currently, the process group is not working, but the model loading between nodes is working fine, so I need to work on inter-node communication now. 
+"""
