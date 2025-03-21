@@ -1,6 +1,6 @@
 import './contentCard.css';
 
-const ContentCard = ({ imageSrc, flip, text }) => {
+const ContentCard = ({ imageSrc, flip, text, contentText }) => {
   return (
     <div id="container">
       {flip === "no" ? (
@@ -11,12 +11,14 @@ const ContentCard = ({ imageSrc, flip, text }) => {
 
             <div className="boxes" id="contentText">
               <h1>{text}</h1>
+              <h3>{contentText}</h3>
             </div> 
           </>
         ): (
           <>
             <div className="boxes" id="contentText2">
               <h1>{text}</h1>
+              <h3>{contentText}</h3>
             </div>
               
             <div className="boxes" id="imageHolder">

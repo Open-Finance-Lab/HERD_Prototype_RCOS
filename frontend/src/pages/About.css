@@ -1,0 +1,39 @@
+body{
+  margin: 0;
+}
+
+.cardImgMission{
+  width: 5em;
+  height: 5em;
+  border-radius: 25px;
+  margin: 0;
+  opacity: 1;
+}
+
+#missionStatementImg{
+  opacity: 1;
+}
+
+#missionStatementBg{
+  background-color: black;
+  height: 10em;
+  width: 100%;
+  margin-right: 2em;
+  opacity: 0.89;
+  padding: 1em;
+  border-radius: 25px;
+}
+
+#missionStatementText{
+  opacity: 1;
+}
+
+#missionStatement{
+  display: flex;
+  gap: 2em;
+  width: 100%;
+  padding: 1em;
+  margin-bottom: 8em;
+  height: 33em;
+  background-image: url("public/aboutBackground.jpg");
+}

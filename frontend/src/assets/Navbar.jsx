@@ -1,23 +1,22 @@
-import { useState } from 'react'
-import './navbar.css'
+import { Link, useLocation } from "react-router-dom";
+import "./navbar.css";
 
-const Navbar = () =>{
+const Navbar = () => {
+  const location = useLocation(); // Get current path
+
   return (
-    <>
-      <div id="navbar">
-        <div id="navbarLeft">
-          <a className="active" href="#">Home</a>
-          <a href="#">About</a>
-          <a href="#">Chat</a>
-        </div>
-
-        <div id="navbarRight">
-          <a href="#">Sign In</a>
-        </div>
-
+    <div id="navbar">
+      <div id="navbarLeft">
+        <Link className={location.pathname === "/" ? "active" : ""} to="/">Home</Link>
+        <Link className={location.pathname === "/about" ? "active" : ""} to="/about">About</Link>
+        <Link className={location.pathname === "/chat" ? "active" : ""} to="/chat">Chat</Link>
       </div>
-    </>
-  )
-}
+
+      <div id="navbarRight">
+        <Link className={location.pathname === "/signin" ? "active" : ""} to="/signin">Sign In</Link>
+      </div>
+    </div>
+  );
+};
 
 export default Navbar;
