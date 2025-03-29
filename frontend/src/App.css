@@ -1,15 +1,48 @@
-body{
+body {
   overflow-y: auto;
   overflow-x: hidden;
+  background-image: url("/homePageBackground.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: "Roboto", sans-serif;
 }
 
-.title{
-  margin: auto;
-  width: 50%;
+.title {
+  text-align: center;
 }
 
-.content{
-  height: 100%;
-  
+#titleImg{
+  width: 40em;
+  height: 35em;
 }
 
+.content {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.features {
+  display: flex;
+  justify-content: center;
+  gap: 2em;
+  margin: 3em auto;
+  width: 80%;
+}
+
+.tagline-item {
+  background-image: url("/backgroundSparks.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white;
+  padding: 1.5em 2.5em;
+  border-radius: 8px;
+  font-size: 1.2em;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  flex: 1;
+  min-width: 160px;
+}
