@@ -23,6 +23,12 @@ body {
   align-items: center;
 }
 
+.aboutCardContainerMain{
+  display: flex;
+  text-align: center;
+  gap:2em;
+}
+
 .features {
   display: flex;
   justify-content: center;

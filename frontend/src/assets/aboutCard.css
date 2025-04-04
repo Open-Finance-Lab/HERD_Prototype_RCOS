@@ -1,0 +1,18 @@
+.aboutCardImg{
+  width: 15em;
+  height: 15em;
+  border-radius: 25px;
+  padding: 15px;
+  background-color: rgb(44, 42, 42);
+  box-shadow: 10px 10px;
+}
+
+.aboutCardImg:hover{
+  transform: translate(0, -10px);
+  cursor: pointer;
+}
+
+.aboutCardLink{
+  text-decoration: none;
+  color: lightblue;
+}
