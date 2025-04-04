@@ -4,6 +4,7 @@ import Footer from "./assets/footer";
 import Main from "./assets/Main";
 import About from "./pages/About";
 import AboutCard from "./assets/aboutCard";
+import Chat from "./pages/Chat";
 
 
 import "./App.css";
@@ -58,8 +59,8 @@ function App() {
           }
         />
         <Route path="/about" element={<About />} />
-        {/* <Route path="/chat" element={<Chat />} />
-        <Route path="/signin" element={<SignIn />} /> */}
+        <Route path="/chat" element={<Chat />} />
+        {/* <Route path="/signin" element={<SignIn />} /> */}
       </Routes>
 
       <Footer />
