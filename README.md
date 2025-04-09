@@ -57,4 +57,10 @@ Our approach to HERD is largely modeled after how the human brain processes comp
 
 **Run Server on Local**
 cd frontend
-npm run dev
+"npm run dev"
+
+new terminal, then
+cd backend
+".\venv\Scripts\Activate"
+"pip freeze > requirements.txt"
+"python app.py"
