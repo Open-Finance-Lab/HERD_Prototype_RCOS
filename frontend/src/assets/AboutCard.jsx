@@ -1,6 +1,7 @@
 import "./aboutCard.css"
 
 const AboutCard = ({ imageSrc, name, contentText, linkedIn }) => {
+  // card that holds information for a paragraph in the about section
   return (
       <div id="aboutCardContainer">
         <a className="aboutCardLink" href={linkedIn}>

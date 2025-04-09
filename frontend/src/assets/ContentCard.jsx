@@ -1,6 +1,8 @@
 import './contentCard.css';
 
 const ContentCard = ({ imageSrc, flip, text, contentText }) => {
+  // card that holds information for a paragraph in the content section
+  // flip is a string that determines whether the image and text are flipped or not
   return (
     <div id="container">
       {flip === "no" ? (

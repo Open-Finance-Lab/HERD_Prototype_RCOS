@@ -17,7 +17,7 @@ function About() {
         <div className="title">
           <h1>Heterogeneous Experts with Routing Decisions</h1>
         </div>
-
+        {/* Section that holds the content for about page. It contains details about what website does. */}
         <div className="content">
           <ContentCard
             imageSrc="/placeHolderImg.png"

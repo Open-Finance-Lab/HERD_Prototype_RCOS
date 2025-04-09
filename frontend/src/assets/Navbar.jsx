@@ -2,8 +2,10 @@ import { Link, useLocation } from "react-router-dom";
 import "./navbar.css";
 
 const Navbar = () => {
-  const location = useLocation(); // Get current path
+  // Navbar that holds the title, links to the home, about, and chat pages, and a link to the github repo
 
+  const location = useLocation(); // Get current path
+  
   return (
     <div id="navbar">
       <div id="navbarLeft">

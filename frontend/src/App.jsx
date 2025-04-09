@@ -22,10 +22,11 @@ function App() {
               <div className="title">
                 <img id="titleImg" src="/titleBg.png" alt="Title" />
               </div>
-              
+              {/* stores the content of this page */}
               <div className="content">
                 <h1>Contributors</h1>
                 <div class="aboutCardContainerMain">
+                  {/* Creates 4 cards with a picture of contributor, along with a short description of what the contributor does */}
                   <AboutCard
                     imageSrc="/Xiao-Yang Liu.jpg"
                     name="Xiao-Yang Liu"
@@ -58,8 +59,10 @@ function App() {
             </Main>
           }
         />
+        {/* Nav bar links  */}
         <Route path="/about" element={<About />} />
         <Route path="/chat" element={<Chat />} />
+        {/* Commented out sigin for now, but have plans to implement it later */}
         {/* <Route path="/signin" element={<SignIn />} /> */}
       </Routes>
 

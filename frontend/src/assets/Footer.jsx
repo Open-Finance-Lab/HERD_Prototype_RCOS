@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './footer.css'
 
 const Footer = () =>{
+  // footer that holds the title, links to the home, about, and chat pages, and a link to the github repo
   return (
     <>
       <div className="footer">
