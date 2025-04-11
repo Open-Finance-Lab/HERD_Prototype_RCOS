@@ -64,3 +64,8 @@ cd backend
 ".\venv\Scripts\Activate"
 "pip freeze > requirements.txt"
 "python app.py"
+
+
+**Note**
+I wasn't able to push the /venv/ file because the contents of it were too large. They are part of a gitignore, 
+but I still want to document my change. 
