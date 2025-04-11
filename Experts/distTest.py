@@ -6,6 +6,8 @@ import socket
 import threading
 import sys
 
+from datetime import timedelta
+
 # ======= Timeout Safeguard =======
 def kill_after_timeout(timeout_seconds: int):
     def monitor():
@@ -28,18 +30,19 @@ def debug_env():
 # ======= Safe Init Process Group =======
 def safe_init_process_group(backend, init_method, rank, world_size):
     try:
-        print(f"[Rank {rank}] Initializing process group using {backend}...")
+        print(f"[Rank {rank}] 🔄 Initializing process group using {backend}...")
         dist.init_process_group(
             backend=backend,
             init_method=init_method,
             rank=rank,
             world_size=world_size,
-            timeout=torch.distributed.timedelta(seconds=30)
+            timeout=timedelta(seconds=30)
         )
         print(f"[Rank {rank}] Process group initialized.")
     except Exception as e:
         print(f"[Rank {rank}] Failed to initialize process group: {e}")
         sys.exit(1)
+
 
 
 # ======= Main Entrypoint =======
