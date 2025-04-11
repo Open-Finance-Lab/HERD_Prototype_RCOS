@@ -11,6 +11,9 @@ import "./App.css";
 
 function App() {
   const ameyaText = "Developed the aggregator model using LangChain and Hugging Face's Transformer Library. Also responsible for developing the frontend of this website.";
+  const samText = "Developed the expert cluster using IMOS and PyTorch."
+  const ryanText = "Developed the routing model, which is responsible for routing the user query to the expert cluster.";
+  const xiaoText = "Professor leading this research Project."
   return (
     <Router>
       <Navbar />
@@ -30,7 +33,7 @@ function App() {
                   <AboutCard
                     imageSrc="/Xiao-Yang Liu.jpg"
                     name="Xiao-Yang Liu"
-                    contentText={ameyaText}
+                    contentText={xiaoText}
                     linkedIn ="https://www.linkedin.com/in/xiao-yang-liu-47b72827/"
                   />
 
@@ -44,14 +47,14 @@ function App() {
                   <AboutCard
                     imageSrc="/samGarnettImg.jpg"
                     name="Samuel Garnett"
-                    contentText={ameyaText}
+                    contentText={samText}
                     linkedIn ="https://www.linkedin.com/in/samuel-garnett-25a547273/"
                   />
 
                   <AboutCard
                     imageSrc="/ryanLeeImg.jpg"
                     name="Ryan Lee"
-                    contentText={ameyaText}
+                    contentText={ryanText}
                     linkedIn ="https://www.linkedin.com/in/ryan-lee100/"
                   />
                 </div>
