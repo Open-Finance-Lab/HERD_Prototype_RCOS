@@ -1,36 +1,49 @@
+/* Define root-level variables and default styles for the whole document */
 :root {
+  /* Font stack: starts with Inter, then falls back to common system fonts */
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  line-height: 1.5;           /* Improves readability with more line spacing */
+  font-weight: 400;           /* Sets base font weight to normal */
 
+  /* Enable support for light and dark color schemes */
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* Default text color and background for dark mode */
+  color: rgba(255, 255, 255, 0.87);  /* Light text on dark background */
+  background-color: #242424;        /* Dark background */
+
+  /* Improve text appearance and rendering across platforms */
+  font-synthesis: none;             /* Prevents browser from auto-generating bold/italic */
+  text-rendering: optimizeLegibility; /* Enables better kerning and ligatures */
+  -webkit-font-smoothing: antialiased; /* Smoothens fonts in WebKit browsers */
+  -moz-osx-font-smoothing: grayscale;  /* Smoothens fonts in macOS Firefox */
 }
 
-body{
+/* Remove default margin and padding from the body */
+body {
   padding: 0;
   margin: 0;
 }
 
-.content{
+/* Add horizontal margin to content area */
+.content {
   margin-left: 3em;
   margin-right: 3em;
 }
 
+/* Override root styles when the user prefers a light theme */
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    color: #213547;            /* Darker text for light background */
+    background-color: #ffffff; /* Light background */
   }
+
+  /* Change link hover color for better visibility in light mode */
   a:hover {
     color: #747bff;
   }
+
+  /* Set a light background for buttons */
   button {
     background-color: #f9f9f9;
   }

@@ -1,54 +1,54 @@
 body {
-  overflow-y: auto;
-  overflow-x: hidden;
-  background-image: url("/homePageBackground.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  font-family: "Roboto", sans-serif;
+  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  background-image: url("/homePageBackground.jpg"); /* Set background image */
+  background-repeat: no-repeat; /* Prevent background image from repeating */
+  background-size: cover; /* Scale background image to cover entire body */
+  font-family: "Roboto", sans-serif; /* Use Roboto font with sans-serif fallback */
 }
 
 .title {
-  text-align: center;
+  text-align: center; /* Center-align text inside elements with class "title" */
 }
 
-#titleImg{
-  width: 40em;
-  height: 35em;
+#titleImg {
+  width: 40em; /* Set image width */
+  height: 35em; /* Set image height */
 }
 
 .content {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  min-height: 100vh; /* Minimum height equals full viewport height */
+  display: flex; /* Use flex layout */
+  flex-direction: column; /* Stack children vertically */
+  align-items: center; /* Center children horizontally */
 }
 
-.aboutCardContainerMain{
-  display: flex;
-  text-align: center;
-  gap:2em;
+.aboutCardContainerMain {
+  display: flex; /* Arrange child cards in a row */
+  text-align: center; /* Center text inside each card */
+  gap: 2em; /* Space between cards */
 }
 
 .features {
-  display: flex;
-  justify-content: center;
-  gap: 2em;
-  margin: 3em auto;
-  width: 80%;
+  display: flex; /* Use flex layout to arrange feature items */
+  justify-content: center; /* Center the feature items horizontally */
+  gap: 2em; /* Space between feature items */
+  margin: 3em auto; /* Vertical margin and center horizontally */
+  width: 80%; /* Set container width */
 }
 
 .tagline-item {
-  background-image: url("/backgroundSparks.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  color: white;
-  padding: 1.5em 2.5em;
-  border-radius: 8px;
-  font-size: 1.2em;
-  font-weight: 600;
-  text-align: center;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  flex: 1;
-  min-width: 160px;
+  background-image: url("/backgroundSparks.jpg"); /* Set background image for each item */
+  background-repeat: no-repeat; /* Do not repeat background */
+  background-size: cover; /* Scale image to fully cover background */
+  color: white; /* Set text color to white */
+  padding: 1.5em 2.5em; /* Add padding inside each item */
+  border-radius: 8px; /* Rounded corners */
+  font-size: 1.2em; /* Larger font size for visibility */
+  font-weight: 600; /* Semi-bold text */
+  text-align: center; /* Center text inside the item */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Add subtle shadow for depth */
+  transition: all 0.3s ease; /* Smooth transition for any state changes (e.g., hover) */
+  flex: 1; /* Let each item grow to fill available space */
+  min-width: 160px; /* Set a minimum width to maintain layout */
 }

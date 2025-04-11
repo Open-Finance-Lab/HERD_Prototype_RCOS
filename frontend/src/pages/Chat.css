@@ -1,63 +1,62 @@
 .chatContent {
-  height: 80vh;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
+  height: 80vh; /* Takes up 80% of the viewport height */
+  width: 100%;  /* Full width */
+  display: flex; /* Flex container to center contents */
+  justify-content: center; /* Horizontally center */
+  align-items: center;     /* Vertically center */
 }
 
 .chatBox {
-  width: 80%;
-  height: 100%;
-  background-color: gray;
-  display: flex;
-  flex-direction: column;
-  border-radius: 10px;
-  overflow-x: hidden;
-  overflow-y: auto;
+  width: 80%; /* 80% of parent width */
+  height: 100%; /* Full height of chatContent */
+  background-color: gray; /* Background color of chat box */
+  display: flex; /* Use flex layout for vertical stacking */
+  flex-direction: column; /* Stack children vertically */
+  border-radius: 10px; /* Rounded corners */
+  overflow-x: hidden; /* Hide horizontal overflow */
+  overflow-y: auto;   /* Scroll vertically if needed */
 }
 
 .chatMessages {
-  flex: 1;
-  padding: 10px;
-  overflow-y: auto;
+  flex: 1; /* Take up remaining space in chatBox */
+  padding: 10px; /* Inner spacing */
+  overflow-y: auto; /* Enable vertical scroll for messages */
 }
 
 .chatMessage {
-  padding: 8px 12px;
-  margin: 5px 0;
-  background-color: white;
-  color: black;
-  border-radius: 8px;
-  align-self: flex-start;
-  max-width: 80%;
+  padding: 8px 12px; /* Padding inside each message bubble */
+  margin: 5px 0; /* Vertical spacing between messages */
+  background-color: white; /* Message bubble background */
+  color: black; /* Text color */
+  border-radius: 8px; /* Rounded message bubbles */
+  align-self: flex-start; /* Align message to the left */
+  max-width: 80%; /* Prevent messages from being too wide */
 }
 
 .chatInputSection {
-  display: flex;
-  padding: 10px;
-  border-top: 1px solid #ddd;
+  display: flex; /* Arrange input and button in a row */
+  padding: 10px; /* Inner spacing */
+  border-top: 1px solid #ddd; /* Top border to separate from messages */
 }
 
 .chatInput {
-  flex: 1;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-size: 16px;
+  flex: 1; /* Take up remaining space */
+  padding: 10px; /* Inner spacing */
+  border-radius: 5px; /* Rounded corners */
+  border: 1px solid #ccc; /* Light border */
+  font-size: 16px; /* Readable font size */
 }
 
 .sendButton {
-  margin-left: 10px;
-  padding: 10px 20px;
-  background-color: black;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  margin-left: 10px; /* Space between input and button */
+  padding: 10px 20px; /* Inner spacing */
+  background-color: black; /* Button background */
+  color: white; /* Button text */
+  border: none; /* Remove default border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
 }
 
 .sendButton:hover {
-  background-color: #3d4acc;
+  background-color: #3d4acc; /* Change color on hover */
 }

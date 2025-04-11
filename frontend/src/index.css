@@ -1,32 +1,41 @@
 :root {
+  /* Define the base font stack for the entire document */
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
 
+  line-height: 1.5; /* Improve readability with comfortable line spacing */
+  font-weight: 400; /* Normal font weight */
+
+  /* Support both light and dark color schemes */
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* Default text and background colors (for dark mode by default) */
+  color: rgba(255, 255, 255, 0.87); /* Light text */
+  background-color: #242424;        /* Dark background */
+
+  /* Improve font rendering and text appearance */
+  font-synthesis: none; /* Prevent automatic bold/italic styles */
+  text-rendering: optimizeLegibility; /* Use better font kerning and ligatures */
+  -webkit-font-smoothing: antialiased; /* Smoother text on WebKit browsers */
+  -moz-osx-font-smoothing: grayscale;  /* Smoother text on macOS Firefox */
 }
 
-body{
-  padding: 0;
-  margin: 0;
+body {
+  padding: 0; /* Remove default body padding */
+  margin: 0;  /* Remove default body margin */
 }
 
+/* Apply overrides when the user prefers a light theme */
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    color: #213547;           /* Darker text for light background */
+    background-color: #ffffff; /* Light background */
   }
+
   a:hover {
-    color: #747bff;
+    color: #747bff; /* Highlight link on hover in light mode */
   }
+
   button {
-    background-color: #f9f9f9;
+    background-color: #f9f9f9; /* Light button background */
   }
 }
