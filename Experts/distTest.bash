@@ -16,8 +16,12 @@ conda activate SpS+Reflexion
 
 export MASTER_ADDR=$(scontrol show hostnames "$SLURM_JOB_NODELIST" | head -n 1)
 export MASTER_PORT=29500
+export RANK=$SLURM_PROCID
+export WORLD_SIZE=$SLURM_NTASKS
 
 echo "SLURM_JOB_NODELIST=$SLURM_JOB_NODELIST"
-hostname
+echo "RANK=$RANK"
+echo "WORLD_SIZE=$WORLD_SIZE"
+echo "MASTER_ADDR=$MASTER_ADDR"
 
 srun python distTest.py
