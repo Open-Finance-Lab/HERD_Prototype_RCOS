@@ -6,28 +6,38 @@
 #SBATCH --time=6:00:00
 #SBATCH --partition=npl-2024
 #SBATCH --job-name=SpS_Reflexion_Test_distributed
-#SBATCH --output=/gpfs/u/home/ARUS/ARUSgrsm/Reflexion-SpS/HotPotQA_Tests/OutputFiles/Outputs.txt
-#SBATCH --error=/gpfs/u/home/ARUS/ARUSgrsm/Reflexion-SpS/HotPotQA_Tests/OutputFiles/Errors.txt
+#SBATCH --output=/gpfs/u/home/ARUS/ARUSgrsm/HERD/Outputs/Outputs.txt
+#SBATCH --error=/gpfs/u/home/ARUS/ARUSgrsm/HERD/Outputs/Errors.txt
 #SBATCH --mail-type=BEGIN,END,FAIL
 #SBATCH --mail-user=garnes2@rpi.edu
 
-# Load environment
+# Load conda environment
 source ~/barn/miniconda3x86/etc/profile.d/conda.sh
 conda activate SpS+Reflexion
 
-# Get master address for process group init
+# Get master info
 export MASTER_ADDR=$(scontrol show hostnames "$SLURM_JOB_NODELIST" | head -n 1)
 export MASTER_PORT=29500
 
-# For debugging (printed only once on head node)
+# Set NCCL and CUDA safe environment vars
+export NCCL_DEBUG=INFO
+export NCCL_IB_DISABLE=1
+export NCCL_ASYNC_ERROR_HANDLING=1
+export PYTHONUNBUFFERED=1
+
+# Print node config (for head-node debug)
 echo "SLURM_JOB_NODELIST=$SLURM_JOB_NODELIST"
 echo "MASTER_ADDR=$MASTER_ADDR"
 echo "MASTER_PORT=$MASTER_PORT"
 
-# Launch with per-task RANK and WORLD_SIZE set inside each process
+# Launch Python script with correct per-rank env vars
 srun bash -c '
   export RANK=$SLURM_PROCID
   export WORLD_SIZE=$SLURM_NTASKS
-  echo "[$(hostname)] Launching task with RANK=$RANK, WORLD_SIZE=$WORLD_SIZE"
-  python distTest.py
+  export LOCAL_RANK=$SLURM_LOCALID
+  export CUDA_VISIBLE_DEVICES=$LOCAL_RANK
+
+  echo "[$(hostname)] 🚀 Launching distTest.py with RANK=$RANK, WORLD_SIZE=$WORLD_SIZE, CUDA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES"
+
+  python distTest.py 2>&1 | tee /gpfs/u/home/ARUS/ARUSgrsm/Reflexion-SpS/HotPotQA_Tests/OutputFiles/log_rank$RANK.txt
 '
