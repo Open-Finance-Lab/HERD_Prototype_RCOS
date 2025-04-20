@@ -24,4 +24,4 @@ echo "RANK=$RANK"
 echo "WORLD_SIZE=$WORLD_SIZE"
 echo "MASTER_ADDR=$MASTER_ADDR"
 
-srun python distTest.py
+srun --export=ALL,RANK,MASTER_ADDR,MASTER_PORT,WORLD_SIZE python distTest.py
