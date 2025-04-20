@@ -106,6 +106,17 @@ if __name__ == "__main__":
             except Exception as e:
                 print(f"[{socket.gethostname()}][Rank 0] Failed to query Node {target_rank}: {e}")
 
+    elif cluster.rank != 0:
+        try:
+            print(f"[{socket.gethostname()}][Rank {cluster.rank}] Waiting to receive tensor from Rank 0...")
+            query_tensor = torch.empty(512, dtype=torch.int).cuda()
+            dist.recv(tensor=query_tensor, src=0)
+            received_query = "".join(chr(c) for c in query_tensor.cpu().tolist() if c != 0)
+            print(f"[{socket.gethostname()}][Rank {cluster.rank}] Received query: {received_query}")
+            cluster.runInference(received_query)
+        except Exception as e:
+            print(f"[{socket.gethostname()}][Rank {cluster.rank}] Failed during recv or inference: {e}")
+
     print(f"[{socket.gethostname()}][Rank {cluster.rank}] Waiting at final barrier...")
     dist.barrier()
     print(f"[{socket.gethostname()}][Rank {cluster.rank}] Final barrier passed.")
