@@ -101,7 +101,7 @@ if __name__ == "__main__":
         for target_rank in range(1, cluster.world_size):
             try:
                 print(f"[{socket.gethostname()}][Rank 0] Querying Node {target_rank}...")
-                responses[target_rank] = cluster.query(f"Test prompt for Node {target_rank}", target_rank)
+                responses[target_rank] = cluster.query(f"Write a short sentence explaining why Node {target_rank} is important.", target_rank)
                 print(f"[{socket.gethostname()}][Rank 0] Response from Node {target_rank}: {responses[target_rank]}")
             except Exception as e:
                 print(f"[{socket.gethostname()}][Rank 0] Failed to query Node {target_rank}: {e}")
