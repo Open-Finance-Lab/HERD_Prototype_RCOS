@@ -20,7 +20,7 @@ export MASTER_ADDR=$(scontrol show hostnames "$SLURM_JOB_NODELIST" | head -n 1)
 export MASTER_PORT=29500
 
 # Set NCCL and CUDA safe environment vars
-export NCCL_DEBUG=INFO
+export NCCL_DEBUG=ERROR
 export NCCL_IB_DISABLE=1
 export NCCL_ASYNC_ERROR_HANDLING=1
 export PYTHONUNBUFFERED=1
