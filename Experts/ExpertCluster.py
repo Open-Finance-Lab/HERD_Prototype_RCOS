@@ -51,7 +51,7 @@ class ExpertCluster:
         try:
             inputs = self.tokenizers[self.rank](text, return_tensors="pt").to("cuda")
             with torch.no_grad():
-                output = self.models[self.rank].generate(**inputs)
+                output = self.models[self.rank].generate(**inputs, max_new_tokens=128)
             result = self.tokenizers[self.rank].decode(output[0], skip_special_tokens=True)
 
             response_tensor = torch.zeros(512, dtype=torch.int).cuda()
@@ -62,6 +62,26 @@ class ExpertCluster:
         except Exception as e:
             print(f"[{socket.gethostname()}][Rank {self.rank}] Inference failed: {e}")
         return None
+
+    def __call__(self, prompts:list):
+        if self.rank == 0: 
+            responses = dict()
+            for targetRank in range(1, self.world_size):
+                try:
+                    responses[target_rank] = self.query(
+                        prompts[targetRank], targetRank
+                    )
+                except Exception as e:
+                    print(f"Out of bounds indexing error for rank {targetRank}")
+            return responses
+        else:
+            try:
+                queryTensor = torch.empty(512, dtype=torch.int).cuda()
+                dist.recv(tensor=queryTensor, src=0)
+                receivedPrompt = "".join(chr(c) for c in queryTensor.cpu().tolist() if c != 0)
+                self.runInference(receivedPrompt)
+            except Exception as e:
+                print(f"[Rank {self.rank}] Error handling incoming prompt: {e}")
 
 
 if __name__ == "__main__":
