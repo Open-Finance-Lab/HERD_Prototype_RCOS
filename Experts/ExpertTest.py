@@ -15,7 +15,7 @@ def expertTest():
 
     prompts = [None, "what is 4+4", "what is 8+8"]
 
-    ExpCluster = ExpertCluster(modelPaths)
+    ExpCluster = ExpertCluster.ExpertCluster(modelPaths)
 
     if ExpCluster.rank == 0:
         responses = ExpCluster(prompts)
