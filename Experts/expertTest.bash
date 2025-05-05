@@ -27,5 +27,5 @@ srun bash -c '
   export CUDA_VISIBLE_DEVICES=$LOCAL_RANK
 
   echo "[$(hostname)] Launching ExpertCluster.py with RANK=$RANK, WORLD_SIZE=$WORLD_SIZE"
-  python ExpertCluster.py 2>&1 | tee /gpfs/u/home/ARUS/ARUSgrsm/Reflexion-SpS/HotPotQA_Tests/OutputFiles/log_rank$RANK.txt
+  python ExpertTest.py 2>&1 | tee /gpfs/u/home/ARUS/ARUSgrsm/Reflexion-SpS/HotPotQA_Tests/OutputFiles/log_rank$RANK.txt
 '
