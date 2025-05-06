@@ -72,7 +72,7 @@ class ExpertCluster:
                         prompts[targetRank], targetRank
                     )
                 except Exception as e:
-                    print(f"Out of bounds indexing error for rank {targetRank}")
+                    print(f"Error querying rank {targetRank}: {e}")
             return responses
         else:
             try:

@@ -25,5 +25,7 @@ def expertTest():
     dist.barrier()
     dist.destroy_process_group()
 
+    return responses
+
 if __name__ == "__main__":
-    expertTest()
+    print(expertTest())
