@@ -68,7 +68,7 @@ class ExpertCluster:
             responses = dict()
             for targetRank in range(1, self.world_size):
                 try:
-                    responses[target_rank] = self.query(
+                    responses[targetRank] = self.query(
                         prompts[targetRank], targetRank
                     )
                 except Exception as e:
