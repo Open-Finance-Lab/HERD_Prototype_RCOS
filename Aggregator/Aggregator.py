@@ -141,6 +141,6 @@ if __name__ == "__main__":
 
     agent.build_index(expert_responses)
 
-    user_query = "How do I make deep learning models run faster in production?"
+    user_query = "Design a program that simulates the motion of a car down a hill, taking into account gravitational acceleration, friction, and dynamically changing speed using calculus. Include what equations need to be used, how to discretize them for simulation, and how to implement the solution in code."
     print("Generated Aggregated Answer:\n")
     print(agent.query(user_query))
