@@ -1,6 +1,5 @@
 import ExpertCluster
 import torch.distributed as dist
-import os
 
 
 def expertTest():
@@ -25,7 +24,10 @@ def expertTest():
     dist.barrier()
     dist.destroy_process_group()
 
-    return responses
+    if ExpCluster.rank == 0:
+        return responses
+    else: 
+        return " "
 
 if __name__ == "__main__":
     print(expertTest())
