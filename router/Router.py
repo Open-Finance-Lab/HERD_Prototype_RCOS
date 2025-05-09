@@ -33,5 +33,5 @@ if __name__ == "__main__":
                }
     
     routingAgent = Router("/gpfs/u/home/ARUS/ARUSgrsm/scratch/HFModels/models--facebook--bart-large-mnli/snapshots/d7645e127eaf1aefc7862fd59a17a5aa8558b8ce", experts)
-    relevantExperts = routingAgent.expertClassification("Can you make me a python program that uses computer vision to identify cancer cells in an electron-microscope image?")
+    relevantExperts = routingAgent.expertClassification("Can you make me a python program that uses computer vision to identify cancer cells in an electron-microscope image? Make sure to highlight biological processes")
     print(relevantExperts)
