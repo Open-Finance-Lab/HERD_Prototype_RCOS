@@ -3,9 +3,9 @@ from transformers import pipeline
 
 classifier = pipeline("zero-shot-classification", model="/gpfs/u/home/ARUS/ARUSgrsm/scratch/HFModels/models--facebook--bart-large-mnli/snapshots/d7645e127eaf1aefc7862fd59a17a5aa8558b8ce")
 
-prompt = "Explain how neural networks are used in image classification and object detection."
+prompt = "The anti-diuretic hormone controls the regulation of urea in the human body."
 
-labels = ["computer vision", "natural language processing", "optimization", "hardware acceleration"]
+labels = ["Biology", "Anatomy", "Physics", "Math"]
 
 result = classifier(prompt, candidate_labels=labels)
 
