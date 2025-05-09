@@ -14,7 +14,7 @@ class Router():
         print(result["scores"]) #debug print
         print(result["labels"])
         for index, score in enumerate(result["scores"]):
-            if (score >= 0.1):
+            if (score >= 0.05):
                 print(result["labels"][index])
                 matchingKeys = [k for k, v in self.expertList.items() if (result["labels"])[index] in v]
                 if matchingKeys[0] not in relevantExperts.keys():
