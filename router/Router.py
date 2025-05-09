@@ -1,5 +1,5 @@
-#Strategy: Use label families instead of just general labels, like make groups of labels for a expert. 
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
+import math
 
 class Router():
     def __init__(self, zero_shot_path:str, experts:dict):
@@ -7,6 +7,8 @@ class Router():
         self.expertList = experts
 
     def expertClassification(self, prompt:str):
+        base_threshold = 0.1
+        adjusted_threshold = base_threshold / math.log(len(labels) + 1)
         labels = [item for sublist in self.expertList.values() for item in sublist]
         relevantExperts = dict()
 
@@ -14,7 +16,7 @@ class Router():
         print(result["scores"]) #debug print
         print(result["labels"])
         for index, score in enumerate(result["scores"]):
-            if (score >= 0.05):
+            if (score >= adjusted_threshold):
                 print(result["labels"][index])
                 matchingKeys = [k for k, v in self.expertList.items() if (result["labels"])[index] in v]
                 if matchingKeys[0] not in relevantExperts.keys():
