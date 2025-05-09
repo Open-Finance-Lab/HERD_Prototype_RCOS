@@ -1,13 +1,35 @@
-from transformers import pipeline
-#Zero-Shot Test
+from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 
-classifier = pipeline("zero-shot-classification", model="/gpfs/u/home/ARUS/ARUSgrsm/scratch/HFModels/models--facebook--bart-large-mnli/snapshots/d7645e127eaf1aefc7862fd59a17a5aa8558b8ce")
+class Router():
+    def __init__(self, zero_shot_path:str, experts:list):
+        self.classifier = pipeline("zero-shot-classification", model=zero_shot_path)
+        self.expertList = experts
 
-prompt = "The anti-diuretic hormone controls the regulation of urea in the human body."
+    def expertClassification(self, prompt:str):
+        result = self.classifier(prompt, candidate_labels=self.expertList)
+        relevantExperts = list()
 
-labels = ["Biology", "Anatomy", "Physics", "Math"]
+        for index, score in enumerate(result["scores"]):
+            if (score >= 0.25):
+                relevantExperts.append((result["labels"])[index])
+        
+        return relevantExperts
 
-result = classifier(prompt, candidate_labels=labels)
 
-print(result["labels"])
-print(result["scores"])
+if __name__ == "__main__":
+
+    # classifier = pipeline("zero-shot-classification", model="/gpfs/u/home/ARUS/ARUSgrsm/scratch/HFModels/models--facebook--bart-large-mnli/snapshots/d7645e127eaf1aefc7862fd59a17a5aa8558b8ce")
+
+    # prompt = "The anti-diuretic hormone controls the regulation of urea in the human body."
+
+    # labels = ["Biology", "Anatomy", "Physics", "Math"]
+
+    # result = classifier(prompt, candidate_labels=labels)
+
+    # print(result["labels"])
+    # print(result["scores"])
+
+    experts = ["Biology", "Anatomy", "Physics", "Math"]
+    routingAgent = Router("/gpfs/u/home/ARUS/ARUSgrsm/scratch/HFModels/models--facebook--bart-large-mnli/snapshots/d7645e127eaf1aefc7862fd59a17a5aa8558b8ce", experts)
+    relevantExperts = routingAgent.expertClassification("The anti-diuretic hormone controls the regulation of urea in the human body.")
+    print(relevantExperts)
