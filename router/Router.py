@@ -10,7 +10,7 @@ class Router():
         relevantExperts = list()
 
         for index, score in enumerate(result["scores"]):
-            if (score >= 0.25):
+            if (score >= 0.2):
                 relevantExperts.append((result["labels"])[index])
         
         return relevantExperts
