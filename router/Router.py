@@ -15,9 +15,11 @@ class Router():
 
         for index, score in enumerate(result["scores"]):
             if (score >= 0.2):
+                print(result["labels"][index])
                 matchingKeys = [k for k, v in self.expertList.items() if (result["labels"])[index] in v]
                 relevantExperts.append(matchingKeys[0])
-                
+                #add section to turn relevent experts into a dict so we can group key words that activated the expert
+                #with the expert for prompt building
         return relevantExperts
 
 
