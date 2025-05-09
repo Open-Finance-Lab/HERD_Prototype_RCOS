@@ -8,7 +8,7 @@ class Router():
     def expertClassification(self, prompt:str):
         result = self.classifier(prompt, candidate_labels=self.expertList)
         relevantExperts = list()
-
+        print(result["scores"])
         for index, score in enumerate(result["scores"]):
             if (score >= 0.2):
                 relevantExperts.append((result["labels"])[index])
