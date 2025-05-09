@@ -8,7 +8,7 @@ class Router():
 
     def expertClassification(self, prompt:str):
         labels = [item for sublist in self.expertList.values() for item in sublist]
-        relevantExperts = list()
+        relevantExperts = dict()
 
         result = self.classifier(prompt, candidate_labels=labels)
         print(result["scores"]) #debug print
@@ -17,9 +17,10 @@ class Router():
             if (score >= 0.2):
                 print(result["labels"][index])
                 matchingKeys = [k for k, v in self.expertList.items() if (result["labels"])[index] in v]
-                relevantExperts.append(matchingKeys[0])
-                #add section to turn relevent experts into a dict so we can group key words that activated the expert
-                #with the expert for prompt building
+                if matchingKeys[0] not in relevantExperts.keys():
+                    relevantExperts[matchingKeys[0]] = [(result["labels"])[index]]
+                else:
+                    relevantExperts[matchingKeys[0]].append((result["labels"])[index])
         return relevantExperts
 
 
