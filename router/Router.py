@@ -12,7 +12,7 @@ class Router():
 
         result = self.classifier(prompt, candidate_labels=labels)
         print(result["scores"]) #debug print
-
+        print(result["labels"])
         for index, score in enumerate(result["scores"]):
             if (score >= 0.1):
                 print(result["labels"][index])
