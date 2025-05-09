@@ -7,11 +7,10 @@ class Router():
         self.expertList = experts
 
     def expertClassification(self, prompt:str):
-        base_threshold = 0.1
-        adjusted_threshold = base_threshold / math.log(len(labels) + 1)
         labels = [item for sublist in self.expertList.values() for item in sublist]
         relevantExperts = dict()
-
+        base_threshold = 0.1
+        adjusted_threshold = base_threshold / math.log(len(labels) + 1)
         result = self.classifier(prompt, candidate_labels=labels)
         print(result["scores"]) #debug print
         print(result["labels"])
