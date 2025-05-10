@@ -45,6 +45,9 @@ class Router():
 
             Rewrite the prompt so that it is focused specifically on the {expert} domain.
             The prompt should allow the {expert} expert to focus only on {expert}-specific instructions from the original prompt.
+            
+            Make sure you only return the prompt with no additional prefacing and concluding text, as the prompt you generate is to be directly passed to 
+            the relevant expert. 
             """
             result = self.llm(promptTemplate)[0]["generated_text"]
             formattedResult = result.replace(promptTemplate, "").strip()
