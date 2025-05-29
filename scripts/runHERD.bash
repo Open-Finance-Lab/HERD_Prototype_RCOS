@@ -1,6 +1,6 @@
 #!/bin/bash
-#SBATCH --nodes=4                
-#SBATCH --ntasks=4                    
+#SBATCH --nodes=3                
+#SBATCH --ntasks=3                    
 #SBATCH --ntasks-per-node=1
 #SBATCH --gres=gpu:8
 #SBATCH --time=6:00:00
@@ -30,5 +30,5 @@ srun bash -c '
   export CUDA_VISIBLE_DEVICES=$LOCAL_RANK
 
   echo "[$(hostname)] Launching HERD.py with RANK=$RANK, WORLD_SIZE=$WORLD_SIZE"
-  python HERD.py 2>&1 | tee /gpfs/u/home/ARUS/ARUSgrsm/HERD_Tests/Logs/log_rank$RANK.txt
+  python /gpfs/u/home/ARUS/ARUSgrsm/HERD/HERD_Prototype_RCOS/HERD.py 2>&1 | tee /gpfs/u/home/ARUS/ARUSgrsm/HERD_Tests/Logs/log_rank$RANK.txt
 '

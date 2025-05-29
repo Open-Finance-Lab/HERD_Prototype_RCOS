@@ -20,7 +20,10 @@ class HERD:
             expert_map = self.router.expertClassification(user_query)
             expert_prompts = self.router.buildExpertPrompts(expert_map, user_query)
 
-            rank_map = {rank: expert for rank, expert in enumerate(expert_prompts.keys(), start=1)}
+            num_available_experts = self.world_size - 1
+            expert_subset = list(expert_prompts.items())[:num_available_experts]
+
+            rank_map = {rank: expert for rank, (expert, _) in zip(range(1, self.world_size), expert_subset)}
             prompts_by_rank = {rank: expert_prompts[expert] for rank, expert in rank_map.items()}
 
             responses = self.expert_cluster(prompts_by_rank)
@@ -31,6 +34,7 @@ class HERD:
             return final_answer
         else:
             self.expert_cluster([])
+
 
 if __name__ == "__main__":
     modelPaths = [
