@@ -7,7 +7,7 @@ from datetime import timedelta
 
 
 class ExpertCluster: 
-    def __init__(self, modelPaths:list, backend="nccl"):
+    def __init__(self, modelPaths: list, expert_to_rank: dict, backend="nccl"):
         self.backend = backend
         self.rank = int(os.environ["RANK"])
         self.world_size = int(os.environ["WORLD_SIZE"])
@@ -15,32 +15,44 @@ class ExpertCluster:
         self.master_port = os.environ["MASTER_PORT"]
         self.models = {}
         self.tokenizers = {}
+        self.expert_to_rank = expert_to_rank
+        self.rank_to_expert = {v: k for k, v in expert_to_rank.items()}
 
         dist.init_process_group(
             backend=self.backend,
             init_method=f"tcp://{self.master_addr}:{self.master_port}",
             rank=self.rank,
             world_size=self.world_size,
-            timeout=timedelta(seconds=30)
+            timeout=timedelta(seconds=60)
         )
 
-        if self.rank < len(modelPaths):
-            self.tokenizers[self.rank] = AutoTokenizer.from_pretrained(modelPaths[self.rank])
-            self.models[self.rank] = AutoModelForCausalLM.from_pretrained(modelPaths[self.rank]).cuda()
+        if self.rank > 0 and self.rank in self.rank_to_expert:
+            expert_name = self.rank_to_expert[self.rank]
+            model_path_index = self.rank - 1
+
+            if model_path_index < len(modelPaths):
+                print(f"[Rank {self.rank}] Loading model for expert '{expert_name}' from {modelPaths[model_path_index]}")
+                self.tokenizers[expert_name] = AutoTokenizer.from_pretrained(modelPaths[model_path_index])
+                self.models[expert_name] = AutoModelForCausalLM.from_pretrained(modelPaths[model_path_index]).cuda()
+                print(f"[Rank {self.rank}] Finished loading model for expert '{expert_name}'")
+            else:
+                print(f"[Rank {self.rank}] No model path available for this rank.")
+        else:
+            print(f"[Rank {self.rank}] Acting as master node (no model will be loaded).")
 
         dist.barrier()
 
-    def query(self, query, target):
+    def query(self, query, target_rank):
         try:
-            if self.rank == target:
+            if self.rank == target_rank:
                 return self.runInference(query)
 
             tensor = torch.tensor([ord(c) for c in query], dtype=torch.int).cuda()
             torch.cuda.synchronize()
-            dist.send(tensor=tensor, dst=target)
+            dist.send(tensor=tensor, dst=target_rank)
 
             response_tensor = torch.empty(512, dtype=torch.int).cuda()
-            dist.recv(tensor=response_tensor, src=target)
+            dist.recv(tensor=response_tensor, src=target_rank)
 
             response = "".join(chr(c) for c in response_tensor.cpu().tolist() if c != 0)
             return response
@@ -49,10 +61,14 @@ class ExpertCluster:
 
     def runInference(self, text):
         try:
-            inputs = self.tokenizers[self.rank](text, return_tensors="pt").to("cuda")
+            expert_name = self.rank_to_expert[self.rank]
+            tokenizer = self.tokenizers[expert_name]
+            model = self.models[expert_name]
+
+            inputs = tokenizer(text, return_tensors="pt").to("cuda")
             with torch.no_grad():
-                output = self.models[self.rank].generate(**inputs, max_new_tokens=128)
-            result = self.tokenizers[self.rank].decode(output[0], skip_special_tokens=True)
+                output = model.generate(**inputs, max_new_tokens=128)
+            result = tokenizer.decode(output[0], skip_special_tokens=True)
 
             response_tensor = torch.zeros(512, dtype=torch.int).cuda()
             encoded = [ord(c) for c in result[:512]]
@@ -63,22 +79,31 @@ class ExpertCluster:
             print(f"[{socket.gethostname()}][Rank {self.rank}] Inference failed: {e}")
         return None
 
-    def __call__(self, prompts:list):
-        if self.rank == 0: 
+    def __call__(self, prompts_by_expert: dict):
+        if self.rank == 0:
             responses = dict()
-            for targetRank in range(1, self.world_size):
+            for expert, prompt in prompts_by_expert.items():
+                target_rank = self.expert_to_rank.get(expert)
+                if target_rank is None:
+                    print(f"[Rank 0] No rank assigned to expert: {expert}")
+                    continue
+                print(f"[Rank 0] Sending prompt for expert {expert} to rank {target_rank}")
                 try:
-                    responses[targetRank] = self.query(
-                        prompts[targetRank], targetRank
-                    )
+                    responses[expert] = self.query(prompt, target_rank)
                 except Exception as e:
-                    print(f"Error querying rank {targetRank}: {e}")
+                    print(f"Error querying expert '{expert}' at rank {target_rank}: {e}")
             return responses
         else:
+            if self.rank not in self.rank_to_expert:
+                print(f"[Rank {self.rank}] No expert assigned to this rank.")
+                return
+
             try:
                 queryTensor = torch.empty(512, dtype=torch.int).cuda()
+                print(f"[Rank {self.rank}] Waiting for prompt...")
                 dist.recv(tensor=queryTensor, src=0)
                 receivedPrompt = "".join(chr(c) for c in queryTensor.cpu().tolist() if c != 0)
+                print(f"[Rank {self.rank}] Received prompt: {receivedPrompt[:50]}...")
                 self.runInference(receivedPrompt)
             except Exception as e:
                 print(f"[Rank {self.rank}] Error handling incoming prompt: {e}")
@@ -91,24 +116,25 @@ if __name__ == "__main__":
         "/gpfs/u/home/ARUS/ARUSgrsm/scratch/HFModels/models--Locutusque--OpenCerebrum-2.0-7B/snapshots/1fe44275e09e3d335fc214da06a7ac9be863341c"
     ]
 
-    cluster = ExpertCluster(modelPaths)
+    expert_to_rank = {
+        "Biology": 1,
+        "Math": 2,
+        "Computer Science": 3
+    }
+
+    cluster = ExpertCluster(modelPaths, expert_to_rank)
 
     if cluster.rank == 0:
-        responses = {}
-        for target_rank in range(1, cluster.world_size):
-            responses[target_rank] = cluster.query(
-                f"Write a short sentence explaining why Node {target_rank} is important.",
-                target_rank
-            )
-            print(f"Response from Node {target_rank}: {responses[target_rank]}")
+        prompts_by_expert = {
+            "Biology": "Explain CRISPR and its medical implications.",
+            "Math": "What is the Riemann Hypothesis?",
+            "Computer Science": "How do transformers work in NLP?"
+        }
+        responses = cluster(prompts_by_expert)
+        for expert, response in responses.items():
+            print(f"[Final Response from {expert}]: {response}")
     else:
-        try:
-            query_tensor = torch.empty(512, dtype=torch.int).cuda()
-            dist.recv(tensor=query_tensor, src=0)
-            received_query = "".join(chr(c) for c in query_tensor.cpu().tolist() if c != 0)
-            cluster.runInference(received_query)
-        except Exception as e:
-            print(f"[Rank {cluster.rank}] Error: {e}")
+        cluster({})
 
     dist.barrier()
     dist.destroy_process_group()
