@@ -1,4 +1,4 @@
-import requests, json, os
+import requests, os
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from embedding.embedder import Embedder
@@ -79,11 +79,12 @@ def create_prompts(req: QueryRequest):
     for t in topics:
         topic_name = t["topic"]
         score = float(t.get("score", 0.0))
-        specialized = call_ollama_specialize(topic_name, req.text)
-        prompts[topic_name] = {
-            "score": score,
-            "prompt": specialized,
-        }
+        if score >= 0.20: 
+            specialized = call_ollama_specialize(topic_name, req.text)
+            prompts[topic_name] = {
+                "score": score,
+                "prompt": specialized,
+            }
 
     return {
         "original": req.text,
