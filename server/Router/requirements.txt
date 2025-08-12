@@ -1,0 +1,5 @@
+sentence-transformers
+pydantic
+fastapi
+numpy
+uvicorn
