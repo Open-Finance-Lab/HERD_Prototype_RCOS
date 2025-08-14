@@ -1,0 +1,5 @@
+{
+  "Physics": "distilbert-base-uncased",
+  "Math": "google/gemma-2b",
+  "Chemistry": "google/gemma-2b"
+}

@@ -3,3 +3,5 @@ pydantic
 fastapi
 numpy
 uvicorn
+torch
+vllm
