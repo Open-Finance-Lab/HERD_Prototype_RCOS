@@ -1,6 +1,16 @@
 # app/core/settings.py
 import os, json
 from pathlib import Path
+
+def load_topic_to_model(json_path: str):
+    with open(json_path, "r") as f:
+        data = json.load(f)
+
+    for topic, path in data.items():
+        if isinstance(path, str):
+            data[topic] = os.path.expandvars(path)
+    return data
+
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 EXPERT_STORE = os.getenv("EXPERT_STORE", "experts.json")
 expert_path = DATA_DIR / EXPERT_STORE
@@ -18,5 +28,5 @@ SYSTEM_SPECIALIZER = (
     "Remove or reword anything out-of-scope. Return ONLY the final specialized prompt text—no JSON, no explanations."
 )
 
-with open(expert_path, "r") as f:
-    TOPIC_TO_MODEL = json.load(f)
+TOPIC_TO_MODEL = load_topic_to_model(expert_path)
+print(TOPIC_TO_MODEL)

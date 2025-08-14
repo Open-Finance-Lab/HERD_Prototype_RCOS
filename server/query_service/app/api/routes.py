@@ -3,8 +3,9 @@ from fastapi import APIRouter
 from app.models.query import QueryRequest
 from app.services.embedder_service import embedder
 from app.services.ollama_service import call_ollama_specialize
-from app.services.vllm_service import call_vllm
+from app.services.local_model_service import run_local_model
 from app.core.settings import MODEL_NAME, TOPIC_TO_MODEL
+
 
 router = APIRouter()
 
@@ -15,6 +16,7 @@ def classify(req: QueryRequest):
 
 @router.post("/create_prompts")
 def create_prompts(req: QueryRequest):
+    print(TOPIC_TO_MODEL["Physics"])
     topics = embedder(req.text, top_k=req.top_k)
     if not topics:
         return {"original": req.text, "topics": [], "prompts": {}}
@@ -41,10 +43,17 @@ def run_expert_models(req: QueryRequest):
         specialized = call_ollama_specialize(topic_name, req.text)
         prompts[topic_name] = {"score": score, "prompt": specialized}
 
-        model_id = TOPIC_TO_MODEL.get(topic_name)
-        if model_id:
-            results[topic_name] = call_vllm(model_id, specialized)
+        model_path = TOPIC_TO_MODEL.get(topic_name)
+        if model_path:
+            results[topic_name] = run_local_model(model_path, specialized)
         else:
             results[topic_name] = f"[ERROR] No model for topic '{topic_name}'"
 
-    return {"original": req.text, "model": MODEL_NAME, "topics": topics, "prompts": prompts, "results": results}
+    return {
+        "original": req.text,
+        "model": MODEL_NAME,
+        "topics": topics,
+        "prompts": prompts,
+        "results": results
+    }
+    
