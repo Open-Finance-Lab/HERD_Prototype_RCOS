@@ -29,7 +29,7 @@ def create_prompts(req: QueryRequest):
 
     return {"original": req.text, "model": MODEL_NAME, "topics": topics, "prompts": prompts}
 
-@router.post("/run_experts")
+@router.post("/run_experts_locally")
 def run_expert_models(req: QueryRequest):
     topics = embedder(req.text, top_k=req.top_k)
     prompts, results = {}, {}
