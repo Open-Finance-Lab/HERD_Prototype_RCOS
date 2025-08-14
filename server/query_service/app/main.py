@@ -1,9 +1,14 @@
-# app/main.py
 import uvicorn, os
 from fastapi import FastAPI
 from app.api.routes import router
+from app.startup import preload_all_models
 
-app = FastAPI()
+async def lifespan(app: FastAPI):
+    preload_all_models()
+    yield
+    #Shutdown Logic Eventually
+
+app = FastAPI(lifespan=lifespan)
 app.include_router(router)
 
 if __name__ == "__main__": 

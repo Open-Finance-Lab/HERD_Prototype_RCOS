@@ -2,7 +2,8 @@
 import os, json
 from pathlib import Path
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
-expert_path = DATA_DIR / "experts.json"
+EXPERT_STORE = os.getenv("EXPERT_STORE", "experts.json")
+expert_path = DATA_DIR / EXPERT_STORE
 
 OLLAMA_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 MODEL_NAME = os.getenv("MODEL_NAME", "gemma:2b")
