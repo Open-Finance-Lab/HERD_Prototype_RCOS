@@ -19,12 +19,6 @@ echo "Installing Python dependencies..."
 pip install --upgrade pip
 pip install -r requirements.txt
 
-echo "Starting vLLM server with model ${MODEL_NAME:-google/gemma-2b}..."
-python3 -m vllm.entrypoints.openai.api_server \
-  --model-id "${MODEL_NAME:-google/gemma-2b}" \
-  --port 8001 \
-  > vllm.log 2>&1 &
-
 if ! command -v ollama &> /dev/null; then
     echo "Installing Ollama..."
     curl -fsSL https://ollama.com/install.sh | sh
