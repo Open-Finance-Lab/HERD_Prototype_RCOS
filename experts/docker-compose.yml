@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+  expert1:
+    build: .
+    container_name: expert1
+    ports:
+      - "8081:8080"
+    env_file:
+      - ./envs/expert1.env
+    volumes:
+      - hf-cache:/root/.cache/huggingface  
+
+  expert2:
+    build: .
+    container_name: expert2
+    ports:
+      - "8082:8080"
+    env_file:
+      - ./envs/expert2.env
+    volumes:
+      - hf-cache:/root/.cache/huggingface
+
+  expert3:
+    build: .
+    container_name: expert3
+    ports:
+      - "8083:8080"
+    env_file:
+      - ./envs/expert3.env
+    volumes:
+      - hf-cache:/root/.cache/huggingface
+
+volumes:
+  hf-cache:

@@ -1,0 +1,18 @@
+{{- range .Values.experts }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .name }}
+  labels: { app: {{ .name }} }
+spec:
+  selector: { app: {{ .name }} }
+  type: {{ .service.type | default "ClusterIP" }}
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+      {{- if and (eq (.service.type | default "ClusterIP") "NodePort") (.service.nodePort) }}
+      nodePort: {{ .service.nodePort }}
+      {{- end }}
+---
+{{- end }}
