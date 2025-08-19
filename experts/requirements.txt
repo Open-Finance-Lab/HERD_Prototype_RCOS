@@ -1,6 +1,0 @@
-fastapi
-uvicorn[standard]
-pydantic>=2
-transformers
-torch  
-pydantic_settings

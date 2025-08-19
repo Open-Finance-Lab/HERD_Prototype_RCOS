@@ -1,5 +1,0 @@
-apiVersion: v2
-name: experts-chart
-version: 0.1.0
-description: MoE expert containers from a single config
-type: application
