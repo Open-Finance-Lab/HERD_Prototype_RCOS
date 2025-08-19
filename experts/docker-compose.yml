@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   expert1:
-    build: .
+    image: expert-template:latest
     container_name: expert1
     ports:
       - "8081:8080"
@@ -12,7 +12,7 @@ services:
       - hf-cache:/root/.cache/huggingface  
 
   expert2:
-    build: .
+    image: expert-template:latest
     container_name: expert2
     ports:
       - "8082:8080"
@@ -22,7 +22,7 @@ services:
       - hf-cache:/root/.cache/huggingface
 
   expert3:
-    build: .
+    image: expert-template:latest
     container_name: expert3
     ports:
       - "8083:8080"
