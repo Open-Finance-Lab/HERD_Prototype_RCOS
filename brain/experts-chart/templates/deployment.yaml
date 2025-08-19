@@ -1,0 +1,31 @@
+{{- range .Values.experts }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .name }}
+  labels: { app: {{ .name }} }
+spec:
+  replicas: {{ .replicas | default 1 }}
+  selector:
+    matchLabels: { app: {{ .name }} }
+  template:
+    metadata:
+      labels: { app: {{ .name }} }
+    spec:
+      containers:
+        - name: {{ .name }}
+          image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag }}"
+          imagePullPolicy: {{ $.Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8080
+          env:
+            - name: PORT
+              value: "8080"
+            {{- range $k, $v := .env }}
+            - name: {{ $k }}
+              value: "{{ $v }}"
+            {{- end }}
+          resources:
+{{ toYaml $.Values.resources | indent 12 }}
+---
+{{- end }}

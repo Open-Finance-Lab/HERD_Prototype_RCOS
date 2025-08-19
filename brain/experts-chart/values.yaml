@@ -1,0 +1,9 @@
+image:
+  repository: sambgarnett/herd
+  tag: latest
+  pullPolicy: IfNotPresent
+
+#You can define startup experts here, or just use the exposed api to add and remove experts as you go. 
+experts: []
+
+resources: {} 
