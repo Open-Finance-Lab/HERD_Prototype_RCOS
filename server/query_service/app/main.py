@@ -1,12 +1,18 @@
-import uvicorn, os
+import uvicorn, os, subprocess
 from fastapi import FastAPI
 from app.api.routes import router
-from app.startup import preload_all_models
 
 async def lifespan(app: FastAPI):
-    preload_all_models()
+    try:
+        subprocess.run(
+            ["helm", "upgrade", "--install", "experts", "../charts/experts-chart"],
+            check=False
+        )
+    except Exception:
+        pass
+
     yield
-    #Shutdown Logic Eventually
+    # Cleanup or shutdown tasks can be added here if needed
 
 app = FastAPI(lifespan=lifespan)
 app.include_router(router)

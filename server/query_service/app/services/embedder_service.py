@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from embedding.embedder import Embedder
+from modules.embedder.embedder import Embedder
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 TOPIC_VECTOR = os.getenv("TOPIC_VECTOR", "topic_vector.json")
