@@ -6,12 +6,13 @@ import os
 from fastapi import APIRouter, HTTPException
 from typing import Any
 from modules.aggregator.aggregator import Aggregator
-from app.models.experts import ExpertConfig
+from app.models.experts import ExpertConfig, InferRequest
 from app.models.query import QueryRequest
 from app.models.agg_req import AggregateRequest
 from app.services.embedder_service import embedder
 from app.services.ollama_service import call_ollama_specialize
 from app.services.local_model_service import run_local_model
+from app.services.expert_query import _get_free_port, _get_target_port, _wait_until_listening, _get_pod_name
 from app.core.settings import MODEL_NAME, TOPIC_TO_MODEL, OLLAMA_URL, TEMP, NUM_PREDICT, TIMEOUT_SECS
 
 
@@ -170,3 +171,67 @@ def remove_expert(name: str):
         raise HTTPException(status_code=500, detail="Failed to remove expert")
 
     return {"status": "removed", "expert": name}
+
+@router.post("/experts/{name}/ask")
+def ask_expert_by_name(
+    name: str,
+    req: InferRequest,
+    namespace: str = "default"  # override if your experts live elsewhere
+):
+    """
+    1) Resolve the Pod + targetPort for the expert `name`
+    2) Port-forward to a free local port
+    3) POST to http://127.0.0.1:<local>/infer with the provided body
+    4) Tear down the port-forward
+    """
+    try:
+        pod = _get_pod_name(name, namespace)
+        target_port = _get_target_port(name, namespace)  # prefers Service targetPort
+        local_port = _get_free_port()
+
+        # Start port-forward (pod is most reliable; service also works if you prefer)
+        pf = subprocess.Popen(
+            ["kubectl", "-n", namespace, "port-forward", f"pod/{pod}", f"{local_port}:{target_port}"],
+            stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True
+        )
+
+        try:
+            _wait_until_listening(local_port, timeout=12.0)
+        except Exception:
+            # surface kubectl output to help debug
+            if pf.stdout:
+                logs = pf.stdout.read()
+            else:
+                logs = ""
+            pf.terminate()
+            raise HTTPException(status_code=504, detail=f"Port-forward failed to start. kubectl output:\n{logs}")
+
+        # Call the expert's /infer
+        url = f"http://127.0.0.1:{local_port}/infer"
+        try:
+            r = requests.post(url, json=req.dict(), timeout=120)
+        except requests.RequestException as e:
+            raise HTTPException(status_code=502, detail=f"Failed to reach expert at {url}: {e}")
+
+        # Return the expert's raw response (or error) verbatim
+        try:
+            data = r.json()
+        except ValueError:
+            data = {"status_code": r.status_code, "text": r.text}
+
+        if r.status_code >= 400:
+            raise HTTPException(status_code=r.status_code, detail=data)
+
+        return {"expert": name, "namespace": namespace, "endpoint": "/infer", "response": data}
+
+    finally:
+        # Best-effort cleanup of the port-forward
+        try:
+            if 'pf' in locals() and pf and pf.poll() is None:
+                pf.terminate()
+                try:
+                    pf.wait(timeout=2)
+                except Exception:
+                    pf.kill()
+        except Exception:
+            pass
